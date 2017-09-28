@@ -11,9 +11,9 @@ namespace semestrovka1_3
     {
         static void Main(string[] args)
         {
-            int x1 = int.Parse(Console.ReadLine());
+            char x1 = char.Parse(Console.ReadLine());
             int y1 = int.Parse(Console.ReadLine());
-            int x2 = int.Parse(Console.ReadLine());
+            char x2 = char.Parse(Console.ReadLine());
             int y2 = int.Parse(Console.ReadLine());
             if (Math.Abs(x2 - x1) == 1 && Math.Abs(y1 - y2) == 2 || Math.Abs(x2 - x1) == 2 && Math.Abs(y1 - y2) == 1)
                 Console.WriteLine("YES");
