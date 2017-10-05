@@ -21,14 +21,14 @@ namespace Zadacha3_18
                  if (x == Math.Pow(b, i))
                     {
                         
-                        c[d] = x;
-                        d++;
+                        
+                        d=d+i;
                     }
                 x = int.Parse(Console.ReadLine());
 
             }
-            for(i=0;i<d;i++)
-            Console.WriteLine($"{c[i]}");
+            
+            Console.WriteLine($"{d}");
             Console.ReadKey();
         }
 
