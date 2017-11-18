@@ -1,0 +1,36 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace sem2_2_5
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Vvedite EPSILON");
+            double eps = double.Parse(Console.ReadLine());
+            
+            double a = 1, b = 1, res = 0, k = 1, b1 = 1, b2 = 1, d = 1, b21 = 1, b22 = 1, r = 1, pi = -2;
+
+            while (a / b > eps)
+            {   a = a * 2;
+            b1 = b1 * d * (d + 1);
+            b21 = b21 * k;
+            b22 = b22 * k;
+            b2 = b21 * b22;
+            b = b1 / b2;
+            r = a / b;
+            res =  (res + 2*r);
+
+            k++;
+            d = d + 2;
+        }
+            pi = pi + res;
+            Console.WriteLine("pi="+pi);
+            Console.ReadKey();
+        }
+    }
+}
