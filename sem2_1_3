@@ -1,0 +1,36 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace sem2_1_3
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Console.WriteLine("Vvedite EPSILON");
+            double eps = double.Parse(Console.ReadLine());
+            Console.WriteLine("\" x \"");
+            double x = double.Parse(Console.ReadLine());
+            double res = 1; double a = 1, b=1,r=1, c=1,count=0,k=1;
+            while (r> eps)
+            {
+                count++;
+                a = a * (-1);
+                Console.WriteLine($"a={a} na {count} etape");
+                k = k * x * x;
+                Console.WriteLine($"k={k} na {count} etape");
+                c = c * b * (b + 1);
+                Console.WriteLine($"c={c} na {count} etape");
+                r=k/c;
+                res = res + ((a * k) / c);
+                b=b+2;  
+                Console.WriteLine(res+" "+r);
+            }
+            Console.WriteLine("otvet="+res); Console.WriteLine($"na {count} shage");
+            Console.ReadKey();
+        }
+    }
+}
