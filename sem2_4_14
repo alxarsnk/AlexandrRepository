@@ -1,0 +1,121 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace sem2_4_14
+{
+    class Program
+    {
+        static double Func( double x)
+        {
+            double f;
+            f = Math.Sin(Math.Tan(x));
+            return f;
+
+        }
+        static double Levie(double a, double b, double n)
+        {
+          
+            double h = (b - a) / n,r=a,x,summ=0;
+            for (var i = 0; i < n; i++)
+            {
+                x = r + h * i;
+                summ = summ + Func(x) * h;
+            }
+            return summ;
+
+
+           
+        }
+        static double Pravie(double a, double b, double n)
+        {
+
+            double h = (b - a) / n, r = a, x, summ = 0;
+            for (var i = 1; i <= n; i++)
+            {
+                x = r + h * i;
+                summ = summ + Func(x) * h;
+            }
+            return summ;
+
+
+
+        }
+        
+
+        
+        static double Trapec(double a, double b, double n)
+        {
+
+            double h = (b - a) / n, r = a, x,x1, summ = 0;
+            for (var i = 0; i < n; i++)
+            {
+                x = r + h * i;
+                x1 = r + h * (i + 1);
+                summ = summ + ((Func(x)+Func(x1))/2 * h);
+            }
+            return summ;
+
+
+
+        }
+        static double Simpson(double a, double b, double n)
+        {
+
+            double h = (b - a) / (2*n), r = a, x, x1, summ = 0,res=0,summ1=0;
+            for (var i = 1; i < n; i++)
+            {
+                x = r + h * 2 * i;
+                summ = summ + (Func(x));
+            }
+            for(var i=1;i<=n;i++)
+            {
+                x1 = r + h *( 2 * i - 1);
+                summ1 = summ1 + Func(x1);
+            }
+            var xn = r + h * 2 * n;
+            res = (h / 3) * (Func(a) + 2 * summ + 4 * summ1 + Func(xn));
+            return res;
+
+
+
+        }
+        static double MKarlo(double a, double b, double n)
+        {
+
+            double h = (b - a) / n, r = a, x, u, summ = 0;
+            for (var i = 1; i <= n; i++)
+            {
+                u = (1 / (b - a) + h * i);
+                
+                
+                summ = summ + (Func(u));
+            }
+            return h*summ;
+
+
+
+        }
+
+        static void Main()
+
+        {
+            Console.WriteLine("нижняя грнаница ");
+            double a = double.Parse(Console.ReadLine());
+            Console.WriteLine("верхняя граница ");
+            double b = double.Parse(Console.ReadLine());
+            Console.WriteLine("колл-во участков");
+            double n = double.Parse(Console.ReadLine());
+            Console.WriteLine("Левые прям"+" "+Levie(a, b, n));
+            Console.WriteLine("Правые прям"+" "+Pravie(a, b, n));
+            Console.WriteLine("трапеция метод"+" "+Trapec(a, b, n));
+            Console.WriteLine("Simpson" + " " + Simpson(a, b, n));
+            Console.WriteLine("MKarlo" + " " + MKarlo(a, b, n));
+            Console.ReadKey();
+
+
+        }
+    }
+}
