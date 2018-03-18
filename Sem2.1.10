@@ -1,0 +1,167 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace semestrovka1._10
+{
+    class GraphCode
+    {
+
+        //если ребро выходит из вершины то в мтарицe инцидентности -1
+        // если ребро входит в вершину то в мтарицe инцидентности 1
+        // везде  трактуется по-разному, в некоторых слуячаях наоборот, но в моем так, как вышеуказнно 
+
+
+
+        public static int vertexcount = int.Parse(Console.ReadLine());//ввод кол-ва вершин
+        public static int edgecount = int.Parse(Console.ReadLine());//ввод кол-ва ребер
+
+        public static int[,] matrix = new int[vertexcount, edgecount];
+        public static int[,] Getmi()//метод заполнения матрицы
+        {
+            for (int i = 0; i < vertexcount; i++)
+            {
+                for (int j = 0; j < edgecount; j++)
+                {
+                    matrix[i, j] = int.Parse(Console.ReadLine());
+                }
+            }
+            return matrix;
+        }
+        public static void Graph()//Построение графа по матрице инцидентности(В этом методе мы вызываем метод построенеия матрциы инцидентности)
+        {
+            int a;
+
+            List<int>[] vertexList = new List<int>[vertexcount];
+
+            for (int i = 0; i < vertexcount; i++)
+            {
+                vertexList[i] = new List<int>();
+            }
+
+
+            for (int i = 0; i < vertexcount; i++)
+            {
+                for (int j = 0; j < edgecount; j++)
+                {
+                    if (matrix[i, j] == -1)
+                    {
+                        for (int k = 0; k < vertexcount; k++)
+                            if (matrix[k, j] == 1)
+                                vertexList[i].Add(k);
+                    }
+
+
+
+                }
+            }
+            for (int i = 0; i < vertexcount; i++)
+            {
+                Console.Write($"{i}->"); vertexList[i].ForEach(Console.Write);
+                Console.WriteLine();
+            }
+
+
+
+
+
+
+
+        }
+        public static void ResizeArray<T>(ref T[,] original, int newCoNum, int newRoNum)//метод добавление в двумерный массив новго столбца
+        {
+            var newArray = new T[newCoNum, newRoNum];
+            int columnCount = original.GetLength(1);
+            int columnCount2 = newRoNum;
+            int columns = original.GetUpperBound(0);
+            for (int co = 0; co <= columns; co++)
+                Array.Copy(original, co * columnCount, newArray, co * columnCount2, columnCount);
+            original = newArray;
+        }
+        public static void Insert(int x, int y) //вставляет ребро, неачало которого в вершине Х и конец которого в вершине У
+        {
+
+            edgecount = edgecount + 1;
+            ResizeArray<int>(ref matrix, vertexcount, edgecount);
+            for (int i = 0; i < vertexcount; i++)
+                matrix[i, edgecount - 1] = 0;
+            matrix[x, edgecount - 1] = -1;
+            matrix[y, edgecount - 1] = 1;
+            Graph();
+
+
+
+        }
+        public static void DeleteEdge(int x, int y)//удаляет ребро, неачало которого в вершине Х и конец которого в вершине У
+        {
+            for (int i = 0; i < vertexcount; i++)
+                for (int j = 0; j < edgecount; j++)
+                    if (matrix[x, j] == -1 && matrix[y, j] == 1)
+
+                        matrix[i, j] = 0;
+            Graph();
+
+
+        }
+        public static void DeleteVertex(int x)//удаляет заданную вершину
+        {
+            for (int i = 0; i < vertexcount; i++)
+                for (int j = 0; j < edgecount; j++)
+                {   if (matrix[x, j] == 1 || matrix[x, j] == -1)
+                    {
+                        matrix[i, j] = 0;
+                        matrix[x, j] = 0;
+                    }
+
+                    
+                }
+            Graph();
+
+        }
+        
+       
+        public static void Getdeg(int m)// возвращет вершины, если их степень больше заданной
+        {
+            int a;
+            int summ;
+            int[] intvert = new int[vertexcount];
+            for (int i = 0; i < vertexcount; i++)
+            {
+                summ = 0;
+                for (int j = 0; j < edgecount; j++)
+                {
+                    if (matrix[i, j] == -1 || matrix[i, j] == 1)
+                    {
+                        summ = summ + matrix[i, j];
+                        intvert[i] = summ;
+                    }
+                }
+
+            }
+            for (int i = 0; i < vertexcount; i++)
+            {
+                if (intvert[i] > m)
+                    
+                    Console.WriteLine($"deg of {i} is {intvert[i]}  ");
+
+            }
+
+
+        }
+        class Program
+        {
+            static void Main(string[] args)
+            {
+                GraphCode.Getmi();
+                GraphCode.Graph();//в этом методе так же выводится список ребер инцедентных вершине
+                GraphCode.Insert(1, 0);
+                GraphCode.DeleteEdge(1, 0);
+                GraphCode.Getdeg(0);
+                GraphCode.DeleteVertex(0);
+
+            }
+        }
+    }
+}
