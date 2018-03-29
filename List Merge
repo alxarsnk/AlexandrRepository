@@ -1,0 +1,122 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Sliyanie
+{
+    public class Elem
+    {
+        public Elem(int data)
+        {
+            Data = data;
+        }
+        public int Data { get; set; }
+        public Elem Next { get; set; }
+        public Elem Previous { get; set; }
+    }
+
+    public class DoubleLinkedList
+    {
+        public Elem Head;
+        public Elem Tail;
+
+        public void Add(int data)
+        {
+            Elem elem = new Elem(data);
+
+            if (Head == null)
+                Head = elem;
+            else
+            {
+                Tail.Next = elem;
+                elem.Previous = Tail;
+            }
+            Tail = elem;
+            Count++;
+        }
+
+        public void Merge(DoubleLinkedList list)
+        {
+            var currentFirst = Head;
+            var currentSecond = list.Head;
+            while (currentFirst != null && currentSecond != null)
+            {
+                if (currentFirst.Data > currentSecond.Data)
+                {
+                    var temp = currentSecond.Next;
+                    if (currentFirst != Head)
+                    {
+
+                        currentFirst.Previous.Next = currentSecond;
+                        currentSecond.Previous = currentFirst.Previous;
+                        currentSecond.Next = currentFirst;
+                        currentFirst.Previous = currentSecond;
+
+                    }
+                    else
+                    {
+                        currentFirst.Previous = currentSecond;
+                        currentSecond.Next = currentFirst;
+                        currentSecond.Previous = null;
+                        Head = currentSecond;
+                    }
+                    currentSecond = temp;
+                    list.Head = currentSecond;
+                    Count++;
+                    list.Count--;
+                }
+                else
+                {
+                    currentFirst = currentFirst.Next;
+                }
+            }
+            if (currentFirst == null)
+            {
+                currentFirst = Tail;
+                currentSecond = list.Head;
+                currentFirst.Next = currentSecond;
+                currentSecond.Previous = currentFirst;
+            }
+        }
+
+        public void Print()
+        {
+            var current = Head;
+            while (current != null)
+            {
+                Console.Write($"{current.Data} ");
+                current = current.Next;
+            }
+        }
+
+        public int Count { get; set; }
+
+        public bool IsEmpty => Count == 0;
+
+        public void Clear()
+        {
+            Head = null;
+            Tail = null;
+            Count = 0;
+        }
+    }
+
+    class Program
+    {
+        static void Main()
+        {
+            var listOne = new DoubleLinkedList();
+            var listTwo = new DoubleLinkedList();
+            for(int i=1;i<=3;i++)
+            {
+                listOne.Add(2 * i - 1);
+                listTwo.Add(2 * i);
+            }
+            listOne.Merge(listTwo);
+            listOne.Print();
+        }
+    }
+}
