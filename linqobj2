@@ -1,0 +1,27 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace linq
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {//linqobj2
+            string vxod = "vxod.txt";
+            string vixod = "vixod.txt";
+            File.WriteAllText(vixod, File.ReadLines(vxod).Select(x => x.Split())
+                .OrderBy(x => x.First())
+                .OrderBy(x => x.Last())
+                .Select(x => string.Format("{0} {1} {2}", x[3], x[1], x[0]))
+                .Last());
+            
+                
+                
+            
+        }
+    }
+}
